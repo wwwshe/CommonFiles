@@ -46,7 +46,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
     private var audioLocal = AudioLocal.Kor
     private var timeInterval = 0.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
     private var timerSST : Timer!
-    private var isRecodingRunning = false // true : Recoding , false : not recoding
+    var isSTTRunning = false // true : Recoding , false : not recoding
     
     /*
       - speechRecognizer 생성 및 delegate 할당
@@ -74,7 +74,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
         audioEngine.inputNode.reset()
         timerStop()
         delegate?.sttStop()
-        self.isRecodingRunning = false
+        self.isSTTRunning = false
     }
     
 
@@ -123,7 +123,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
                     self.audioEngine.stop()
                     inputNode.removeTap(onBus: 0)
                     self.recognitionRequest = nil
-                    self.isRecodingRunning = false
+                    self.isSTTRunning = false
                     self.delegate?.sttReuslt(result:  result?.bestTranscription.formattedString ?? "")
                 }
             })
@@ -137,7 +137,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
             audioEngine.prepare()
             do {
                 try audioEngine.start()
-                isRecodingRunning = true
+                isSTTRunning = true
                 timerStart()
                 delegate?.sttStartComplete()
              
@@ -187,9 +187,13 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
       음성입력 시간초과일경우 중지
     */
     @objc private func fire(){
-        if isRecodingRunning && timeInterval > 0.0{
+        if isSTTRunning{
+            if timeInterval > 0.0{
+                stopSTT()
+                delegate?.timeOutRecoding?()
+            }
+        }else{
             stopSTT()
-            delegate?.timeOutRecoding?()
         }
     }
     /*
@@ -210,7 +214,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
      타이머 중지
      */
     private func timerStop(){
-        if timerSST != nil && timerSST.isValid{
+        if timerSST != nil && timerSST.isValid {
             timerSST.invalidate()
         }
     }
