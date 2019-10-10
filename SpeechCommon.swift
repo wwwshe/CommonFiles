@@ -1,6 +1,6 @@
 //
 //  SpeechCommon.swift
-//  
+//
 //
 //  Created by jungwook on 07/10/2019.
 //  Copyright © 2019 jungwook. All rights reserved.
@@ -24,9 +24,19 @@ import Speech
     # 음성 관련 Error
 */
 enum SpeechError : Error {
-    case RequestNilError(msg : String)   // Request 객체가 nil일때 에러
+    case RequestNilError   // Request 객체가 nil일때 에러
 }
-
+/*
+   커스텀 에러 description
+ */
+extension SpeechError{
+    public var localizedDescription: String{
+        switch self {
+        case .RequestNilError:
+            return "Unable to create an SFSpeechAudioBufferRecognitionRequest object"
+        }
+    }
+}
 
 /*
     # 음성 관련 클래스
@@ -110,7 +120,7 @@ class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
             
             //recognitionRequest 객체가 인스턴스화되고 nil이 아닌지 확인합니다.
             guard let recognitionRequest = recognitionRequest else {
-                throw SpeechError.RequestNilError(msg :  "Unable to create an SFSpeechAudioBufferRecognitionRequest object" )
+                throw SpeechError.RequestNilError
             }
             //사용자가 말할 때의 인식 부분적인 결과를보고하도록 recognitionRequest에 지시합니다.
             recognitionRequest.shouldReportPartialResults = true
