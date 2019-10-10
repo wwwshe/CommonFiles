@@ -10,7 +10,10 @@ import Foundation
 import AVFoundation
 import Speech
 
-
+/*
+    # Audio 관련 Delegate
+    - Speech To Text 관련
+*/
 @objc protocol AudioDelegate : class{
     func sttReuslt(result : String)
     func sttStartComplete()
@@ -41,9 +44,9 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
     private let audioEngine = AVAudioEngine()
     private var recognitionTask: SFSpeechRecognitionTask?
     private var audioLocal = AudioLocal.Kor
-    var timeInterval = 0.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
-    var timerSST : Timer!
-    var isRecodingRunning = false // true : Recoding , false : not recoding
+    private var timeInterval = 0.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
+    private var timerSST : Timer!
+    private var isRecodingRunning = false // true : Recoding , false : not recoding
     
     /*
       - speechRecognizer 생성 및 delegate 할당
@@ -64,7 +67,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
        녹음 중지 메소드
        - 오디오입력과 음성인식 중단
     */
-    func stopRecoding(){
+    func stopSTT(){
         audioEngine.stop()      // 오디오 입력 중단
         recognitionRequest?.endAudio()   // 음성인식 중단
         audioEngine.inputNode.removeTap(onBus: 0)
@@ -72,18 +75,20 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
         timerStop()
         delegate?.sttStop()
         self.isRecodingRunning = false
-       
     }
+    
+
 
     /*
      녹음 시작 메소드
      - audioEngine 꺼져 있을 경우 음성인식 실행
      - 실행중일때 오디오입력과 음성인식 중단
      */
-    func startRecording(){
+    func startSTT(){
         
         if audioEngine.isRunning{   // 음성인식 러닝 체크
-            stopRecoding()
+            stopSTT()
+            
         }else{
             if recognitionTask != nil {
                 recognitionTask?.cancel()
@@ -98,7 +103,8 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
             
             //recognitionRequest 객체가 인스턴스화되고 nil이 아닌지 확인합니다.
             guard let recognitionRequest = recognitionRequest else {
-                fatalError("Unable to create an SFSpeechAudioBufferRecognitionRequest object")
+                delegate?.audioError(error : "Unable to create an SFSpeechAudioBufferRecognitionRequest object")
+                return
             }
             //사용자가 말할 때의 인식 부분적인 결과를보고하도록 recognitionRequest에 지시합니다.
             recognitionRequest.shouldReportPartialResults = true
@@ -143,7 +149,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
     /*
      Audio Session Recoding Setting
      */
-    func audioSessionRecordSet(){
+    private func audioSessionRecordSet(){
         //오디오 녹음을 준비 할 AVAudioSession을 만듭니다. 여기서 우리는 세션의 범주를 녹음, 측정 모드로 설정하고 활성화합니다. 이러한 속성을 설정하면 예외가 발생할 수 있으므로 try catch 절에 넣어야합니다.
         let audioSession = AVAudioSession.sharedInstance()
         do {
@@ -165,7 +171,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
      - etc
         utterance.rate : 목소리 톤
      */
-    func ttsStart(text : String, isVoiceOver : Bool){
+    func startTTS(text : String, isVoiceOver : Bool){
         if isVoiceOver{
             print("running")
         }else{
@@ -180,16 +186,16 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
     /*
       음성입력 시간초과일경우 중지
     */
-    @objc func fire(){
+    @objc private func fire(){
         if isRecodingRunning && timeInterval > 0.0{
-            stopRecoding()
+            stopSTT()
             delegate?.timeOutRecoding?()
         }
     }
     /*
        타이머 시작
     */
-    func timerStart(){
+    private func timerStart(){
         if timeInterval > 0.0{
             if let timer = timerSST  {
                 if !timer.isValid{
@@ -203,7 +209,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
     /*
      타이머 중지
      */
-    func timerStop(){
+    private func timerStop(){
         if timerSST != nil && timerSST.isValid{
             timerSST.invalidate()
         }
