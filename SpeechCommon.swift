@@ -11,39 +11,39 @@ import AVFoundation
 import Speech
 
 /*
-    # Audio 관련 Delegate
+    # 음성 관련 Delegate
     - Speech To Text 관련
 */
-@objc protocol AudioDelegate : class{
-    func sttReuslt(result : String)
-    func sttStartComplete()
-    func sttStop()
-    func audioError(error : String)
-    @objc optional func timeOutRecoding()
+@objc protocol SpeechDelegate : class{
+    func didSTTReusltMsg(result : String)
+    func didSTTStart()
+    func didSTTStop()
+    func didErrorMsg(error : String)
+    @objc optional func timeOutSTT()
 }
 
 
 /*
-    # Audio 관련 클래스
+    # 음성 관련 클래스
     - TTS(Text To Speech), STT(Speech To Text)
 */
-class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
+class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
     /*
         # Audio Local
           - Kor : 한국어
           - Eng : 영어
     */
-    enum AudioLocal : String{
+    enum SpeechLocal : String{
         case Kor = "ko-KR"
         case Eng = "en_AS"
     }
     
-    var delegate : AudioDelegate?
+    var delegate : SpeechDelegate?
     private var speechRecognizer : SFSpeechRecognizer!
     private var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
     private let audioEngine = AVAudioEngine()
     private var recognitionTask: SFSpeechRecognitionTask?
-    private var audioLocal = AudioLocal.Kor
+    private var audioLocal = SpeechLocal.Kor
     private var timeInterval = 0.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
     private var timerSST : Timer!
     var isSTTRunning = false // true : Recoding , false : not recoding
@@ -57,7 +57,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
         audioSessionRecordSet()
     }
     
-    init(audioLocal : AudioLocal) {
+    init(audioLocal : SpeechLocal) {
         super.init()
         self.audioLocal = audioLocal
         speechRecognizer?.delegate = self
@@ -73,7 +73,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
         audioEngine.inputNode.removeTap(onBus: 0)
         audioEngine.inputNode.reset()
         timerStop()
-        delegate?.sttStop()
+        delegate?.didSTTStop()
         self.isSTTRunning = false
     }
     
@@ -103,7 +103,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
             
             //recognitionRequest 객체가 인스턴스화되고 nil이 아닌지 확인합니다.
             guard let recognitionRequest = recognitionRequest else {
-                delegate?.audioError(error : "Unable to create an SFSpeechAudioBufferRecognitionRequest object")
+                delegate?.didErrorMsg(error : "Unable to create an SFSpeechAudioBufferRecognitionRequest object")
                 return
             }
             //사용자가 말할 때의 인식 부분적인 결과를보고하도록 recognitionRequest에 지시합니다.
@@ -124,7 +124,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
                     inputNode.removeTap(onBus: 0)
                     self.recognitionRequest = nil
                     self.isSTTRunning = false
-                    self.delegate?.sttReuslt(result:  result?.bestTranscription.formattedString ?? "")
+                    self.delegate?.didSTTReusltMsg(result:  result?.bestTranscription.formattedString ?? "")
                 }
             })
             
@@ -139,10 +139,10 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
                 try audioEngine.start()
                 isSTTRunning = true
                 timerStart()
-                delegate?.sttStartComplete()
+                delegate?.didSTTStart()
              
             } catch let error {
-                delegate?.audioError(error: "AudioEngin Start error reason : \(error.localizedDescription)")
+                delegate?.didErrorMsg(error: "AudioEngin Start error reason : \(error.localizedDescription)")
             }
         }
     }
@@ -157,7 +157,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
             try audioSession.setMode(AVAudioSession.Mode.measurement)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch let error {
-            delegate?.audioError(error: "AudioSession Set error reason : \(error.localizedDescription)")
+            delegate?.didErrorMsg(error: "AudioSession Set error reason : \(error.localizedDescription)")
         }
     }
     /*
@@ -190,7 +190,7 @@ class AudioCommon : NSObject, SFSpeechRecognizerDelegate{
         if isSTTRunning{
             if timeInterval > 0.0{
                 stopSTT()
-                delegate?.timeOutRecoding?()
+                delegate?.timeOutSTT?()
             }
         }else{
             stopSTT()
