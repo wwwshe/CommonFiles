@@ -15,9 +15,9 @@ import Speech
     - Speech To Text 관련
 */
 @objc protocol SpeechDelegate : class{
-    func didSTTReusltMsg(result : String)
-    func didSTTStart()
-    func didSTTStop()
+    func STTReusltMsg(result : String)
+    func STTStart()
+    func STTStop()
     @objc optional func timeOutSTT()
 }
 /*
@@ -88,10 +88,9 @@ class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
         audioEngine.inputNode.removeTap(onBus: 0)
         audioEngine.inputNode.reset()
         timerStop()
-        delegate?.didSTTStop()
+        delegate?.STTStop()
         self.isSTTRunning = false
     }
-    
 
     /*
      녹음 시작 메소드
@@ -141,7 +140,7 @@ class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
                     inputNode.removeTap(onBus: 0)
                     self.recognitionRequest = nil
                     self.isSTTRunning = false
-                    self.delegate?.didSTTReusltMsg(result:  result?.bestTranscription.formattedString ?? "")
+                    self.delegate?.STTReusltMsg(result:  result?.bestTranscription.formattedString ?? "")
                 }
             })
             
@@ -155,7 +154,7 @@ class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
                 try audioEngine.start()
                 isSTTRunning = true
                 timerStart()
-                delegate?.didSTTStart()
+                delegate?.STTStart()
         }
     }
     /*
