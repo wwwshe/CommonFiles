@@ -26,3 +26,19 @@ func alertMessage(viewConroller: UIViewController,meesage : String) {
     alertController.addAction(okAction);
     viewConroller.present(alertController, animated: true, completion: nil);
 }
+
+
+
+extension CustomStringConvertible{
+    var description: String{
+        let selfMirror = Mirror(reflecting: self)
+        var description = "***** \(selfMirror.description) *****"
+        for child in selfMirror.children{
+            if let propertyName = child.label{
+                description += "\(propertyName): \(child.value)\n"
+            }
+        }
+        
+        return description
+    }
+}
