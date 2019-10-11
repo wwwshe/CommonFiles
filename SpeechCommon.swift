@@ -53,7 +53,7 @@ class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
         case Eng = "en_AS"
     }
     
-    var delegate : SpeechDelegate?
+    weak var delegate : SpeechDelegate?
     private var speechRecognizer : SFSpeechRecognizer!
     private var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
     private let audioEngine = AVAudioEngine()
@@ -62,6 +62,7 @@ class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
     private var timeInterval = 0.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
     private var timerSST : Timer!
     private var isAudioEnginSetting = false
+    var speechRate : Float = 0.4    // 목소리 피치 default : 0.4
     var isSTTRunning = false // true : Recoding , false : not recoding
     
     /*
@@ -186,7 +187,7 @@ class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
             let synthesizer = AVSpeechSynthesizer()
             let utterance = AVSpeechUtterance(string: text)
             utterance.voice = AVSpeechSynthesisVoice(language: audioLocal.rawValue)
-            utterance.rate = 0.4
+            utterance.rate = speechRate
             synthesizer.speak(utterance)
         }
     }
@@ -225,4 +226,11 @@ class SpeechCommon : NSObject, SFSpeechRecognizerDelegate{
             timerSST.invalidate()
         }
     }
+    /*
+     메모리 헤제 관측을 위한 로그
+     */
+    deinit {
+        print("SpeechCommon deinit")
+    }
+    
 }
