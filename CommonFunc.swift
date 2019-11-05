@@ -28,6 +28,22 @@ func alertMessage(viewConroller: UIViewController,meesage : String) {
 }
 
 
+func DLogPrint<T>(_ object: @autoclosure () -> T, _ file: String = #file, _ function : String = #function, _ line: Int = #line)
+{
+    #if DEBUG
+    let value = object()
+    let fileURL = NSURL(string: file)?.lastPathComponent ?? "Unknown file"
+    let date = Date()
+    
+    let fileSplitArray = fileURL.split(separator: "/")
+    _ = fileSplitArray.count
+    
+    print("[\(date)] [\(function)] [\(line)] ---------- DEBUG PRINT \(String(reflecting: value)) ----------")
+    #endif
+}
+
+
+
 
 extension CustomStringConvertible{
     var description: String{
