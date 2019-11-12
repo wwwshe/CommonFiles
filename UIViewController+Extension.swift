@@ -10,13 +10,11 @@ import UIKit
 
 enum StoryboardType : String {
     case main = "Main"
+    case temp = "Temp"
 }
 extension UIStoryboard {
     static func getStoryBoard(type : StoryboardType = .main) -> UIStoryboard{
-        switch type {
-        case .main:
-            return UIStoryboard(name: StoryboardType.main.rawValue, bundle: nil)
-        }
+        return UIStoryboard(name: type.rawValue, bundle: nil)
     }
 }
 
@@ -24,12 +22,7 @@ extension UIViewController{
     //MARK: UIViewController Identifier를 클래스 이름으로 동일하게 했을시 동작
     static func shared(storyboardType type : StoryboardType = .main) -> Self{
         var storyBoard : UIStoryboard
-        
-        switch type {
-        case .main:
-            storyBoard = UIStoryboard.getStoryBoard()
-        }
-        
+        storyBoard = UIStoryboard.getStoryBoard(type: type)
         let identifier = String(describing: self)
         let identifiersList = storyBoard.value(forKey: "identifierToNibNameMap") as? [String: Any]
         guard ((identifiersList?[identifier]) != nil) else{
