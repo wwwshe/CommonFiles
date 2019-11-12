@@ -12,18 +12,12 @@ enum StoryboardType : String {
     case main = "Main"
 }
 extension UIStoryboard {
-    @nonobjc class var main: UIStoryboard {
-        return UIStoryboard(name: StoryboardType.main.rawValue, bundle: nil)
+    static func getStoryBoard(type : StoryboardType = .main) -> UIStoryboard{
+        switch type {
+        case .main:
+            return UIStoryboard(name: StoryboardType.main.rawValue, bundle: nil)
+        }
     }
-    //  @nonobjc class var journey: UIStoryboard {
-    //    return UIStoryboard(name: StoryboardType.login.rawValue, bundle: nil)
-    //  }
-    //  @nonobjc class var quiz: UIStoryboard {
-    //    return UIStoryboard(name: StoryboardType.profile.rawValue, bundle: nil)
-    //  }
-    //  @nonobjc class var home: UIStoryboard {
-    //    return UIStoryboard(name: StoryboardType.home.rawValue, bundle: nil)
-    //  }
 }
 
 extension UIViewController{
@@ -33,7 +27,7 @@ extension UIViewController{
         
         switch type {
         case .main:
-            storyBoard = UIStoryboard.main
+            storyBoard = UIStoryboard.getStoryBoard()
         }
         
         let identifier = String(describing: self)
