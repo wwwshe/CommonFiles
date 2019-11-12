@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+//MARK: String Extension
 extension String {
     subscript(value: Int) -> Character {
         self[index(at: value)]

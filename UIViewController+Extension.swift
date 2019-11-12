@@ -7,19 +7,20 @@
 //
 
 import UIKit
-
+//MARK: UIStoryboard Type
 enum StoryboardType : String {
     case main = "Main"
     case temp = "Temp"
 }
+//MARK: UIStoryboard Extension
 extension UIStoryboard {
     static func getStoryBoard(type : StoryboardType = .main) -> UIStoryboard{
         return UIStoryboard(name: type.rawValue, bundle: nil)
     }
 }
-
+//MARK: UIViewController Extension
 extension UIViewController{
-    //MARK: UIViewController Identifier를 클래스 이름으로 동일하게 했을시 동작
+    // UIViewController Identifier를 클래스 이름으로 동일하게 했을시 동작
     static func shared(storyboardType type : StoryboardType = .main) -> Self{
         var storyBoard : UIStoryboard
         storyBoard = UIStoryboard.getStoryBoard(type: type)
