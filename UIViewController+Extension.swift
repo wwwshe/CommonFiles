@@ -28,7 +28,7 @@ extension UIStoryboard {
 
 extension UIViewController{
     //MARK: UIViewController Identifier를 클래스 이름으로 동일하게 했을시 동작
-    static func shared(storyboardType type : StoryboardType = .main) -> Self?{
+    static func shared(storyboardType type : StoryboardType = .main) -> Self{
         var storyBoard : UIStoryboard
         
         switch type {
@@ -40,10 +40,19 @@ extension UIViewController{
         let identifiersList = storyBoard.value(forKey: "identifierToNibNameMap") as? [String: Any]
         guard ((identifiersList?[identifier]) != nil) else{
             print("UIViewController identifier not found")
-            return nil
+            return self.init()
         }
         let viewcontroller = storyBoard.instantiateViewController(identifier: String(describing: self))
         let selfViewController = viewcontroller as! Self
         return selfViewController
     }
+    
+    func viewControllerPush<T : UIViewController>(viewController view : T, animate : Bool = true){
+        guard let navi = self.navigationController else {
+            print("Not use NavigationController")
+            return
+        }
+        navi.pushViewController(view, animated: animate)
+    }
+    
 }
