@@ -60,3 +60,17 @@ enum AIEdge:Int {
     Bottom_Right,
     All
 }
+
+
+
+
+extension UIView{
+    func tapActionKeyBoardHide(){
+        isUserInteractionEnabled = true
+        let tap =  UITapGestureRecognizer(target: self, action: #selector(keyBoardHide))
+        self.addGestureRecognizer(tap)
+    }
+    @objc func keyBoardHide(){
+        self.endEditing(true)
+    }
+}
