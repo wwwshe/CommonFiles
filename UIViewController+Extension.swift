@@ -36,7 +36,12 @@ extension UIViewController{
             print("UIViewController identifier not found")
             return self.init()
         }
-        let viewcontroller = storyBoard.instantiateViewController(identifier: String(describing: self))
+        var viewcontroller : UIViewController
+        if #available(iOS 13.0, *){
+            viewcontroller = storyBoard.instantiateViewController(identifier: String(describing: self))
+        }else{
+            viewcontroller = storyBoard.instantiateViewController(withIdentifier: String(describing: self))
+        }
         let selfViewController = viewcontroller as! Self
         return selfViewController
     }
