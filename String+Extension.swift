@@ -55,6 +55,9 @@ extension String {
         let dateFormats = ["yyyy-MM-dd",
                            "yyyy-MM-dd HH:mm:ss",
                            "yyyy-MM-dd HH:mm",
+                           "yyyy.MM.dd",
+                           "yyyy.MM.dd HH:mm:ss",
+                           "yyyy.MM.dd HH:mm",
                            "yyyy-MM-dd'T'HH:mm:ss'Z'",
                            "MM/dd/yyyy"
         ]
