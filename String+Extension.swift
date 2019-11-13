@@ -46,3 +46,29 @@ private extension String {
         index(startIndex, offsetBy: offset)
     }
 }
+
+
+extension String {
+    //Mark: not know date format
+    func stringToDate() -> Date?{
+        // appending date format
+        let dateFormats = ["yyyy-MM-dd",
+                           "yyyy-MM-dd HH:mm:ss",
+                           "yyyy-MM-dd HH:mm",
+                           "yyyy-MM-dd'T'HH:mm:ss'Z'",
+                           "MM/dd/yyyy"
+        ]
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        for format in dateFormats{
+            dateFormatter.dateFormat = format
+            let d = dateFormatter.date(from: self)
+            if d != nil{
+                print(format)
+                return d
+            }
+        }
+        return nil
+    }
+}
