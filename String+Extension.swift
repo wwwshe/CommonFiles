@@ -75,3 +75,33 @@ extension String {
         return nil
     }
 }
+extension String {
+    // 문자열 단어 갯수 세기
+    var wordCount: Int {
+        let regex = try? NSRegularExpression(pattern: "\\w+")
+        return regex?.numberOfMatches(in: self, range: NSRange(location: 0, length: self.utf16.count)) ?? 0
+    }
+}
+
+extension String {
+     // 지정된 길이보다 문자열이 길때 문자열 뒤에 ... 붙이기
+    func truncate(to length: Int, addEllipsis: Bool = false) -> String  {
+        if length > count { return self }
+        
+        let trimmed = self[..<length]
+
+        if addEllipsis {
+            return "\(trimmed)..."
+        } else {
+            return String(trimmed)
+        }
+    }
+}
+
+extension String {
+    // 접두사 ex) http:// 가 있을경우 체크해서 없으면 붙여서 리턴
+    func withPrefix(_ prefix: String) -> String {
+        if self.hasPrefix(prefix) { return self }
+        return "\(prefix)\(self)"
+    }
+}
