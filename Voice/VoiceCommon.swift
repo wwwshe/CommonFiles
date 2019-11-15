@@ -21,7 +21,7 @@ enum SpeechLocal : String{
     case Eng = "en_AS"
 }
 
-typealias Voice = TextToSpeech & SpeechToText
+typealias Voice = TextToSpeech & SpeechToText & SpeechTimerDelegate
 
 /*
     # 음성 관련 Delegate
@@ -50,16 +50,16 @@ extension VoiceError{
     }
 }
 
-class VoiceCommon : Voice{
-    var speechRecognizer : SFSpeechRecognizer!
-    var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
-    let audioEngine = AVAudioEngine()
-    var recognitionTask: SFSpeechRecognitionTask?
-    var audioLocal = SpeechLocal.Kor
-    var timeInterval = 0.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
-    var isAudioEnginSetting = false
+open class VoiceCommon : Voice{
+    internal var speechRecognizer : SFSpeechRecognizer!
+    internal var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
+    internal let audioEngine = AVAudioEngine()
+    internal var recognitionTask: SFSpeechRecognitionTask?
+    internal var audioLocal = SpeechLocal.Kor
+    var timeInterval = 1.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
+    internal var isAudioEnginSetting = false
     var isSTTRunning = false // true : Recoding , false : not recoding
-    var speechTimer = SpeechTimer()
+    internal var speechTimer = SpeechTimer()
     var delegate : VoiceDelegate?
     /*
      Audio Session Recoding Setting
@@ -71,5 +71,7 @@ class VoiceCommon : Voice{
         try audioSession.setMode(AVAudioSession.Mode.measurement)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
     }
- 
+    init() {
+        self.speechTimer.delegate = self 
+    }
 }
