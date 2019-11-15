@@ -112,7 +112,7 @@ internal extension SpeechToText {
         if isSTTRunning{
             if timeInterval > 0.0{
                 stopSTT()
-                delegate?.timeOutSTT?()
+                delegate?.timeOutSTT()
             }
         }else{
             stopSTT()

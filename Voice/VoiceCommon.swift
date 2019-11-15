@@ -16,33 +16,40 @@ import Speech
  - Kor : 한국어
  - Eng : 영어
  */
-enum SpeechLocal : String{
+public enum SpeechLocal : String{
     case Kor = "ko-KR"
     case Eng = "en_AS"
 }
 
-typealias Voice = TextToSpeech & SpeechToText & SpeechTimerDelegate
+internal typealias Voice = TextToSpeech & SpeechToText & SpeechTimerDelegate
 
 /*
     # 음성 관련 Delegate
     - Speech To Text 관련
 */
-@objc protocol VoiceDelegate : class{
+internal protocol VoiceDelegate : class{
     func STTReusltMsg(result : String)
     func STTStart()
     func STTStop()
-    @objc optional func timeOutSTT()
+    func timeOutSTT()
 }
 
+internal extension VoiceDelegate{
+    func timeOutSTT(){
+        
+    }
+}
+
+
 /// 음성 관련 Error
-enum VoiceError : Error {
+internal enum VoiceError : Error {
     case RequestNilError   // Request 객체가 nil일때 에러
 }
 /*
    커스텀 에러 description
  */
-extension VoiceError{
-    public var localizedDescription: String{
+internal extension VoiceError{
+    var localizedDescription: String{
         switch self {
         case .RequestNilError:
             return "Unable to create an SFSpeechAudioBufferRecognitionRequest object"
@@ -60,7 +67,9 @@ open class VoiceCommon : Voice{
     internal var isAudioEnginSetting = false
     var isSTTRunning = false // true : Recoding , false : not recoding
     internal var speechTimer = SpeechTimer()
-    var delegate : VoiceDelegate?
+    weak var delegate : VoiceDelegate?
+    var speechRate : Float = 0.4
+    var local : SpeechLocal = SpeechLocal.Kor
     /*
      Audio Session Recoding Setting
      */
@@ -73,5 +82,8 @@ open class VoiceCommon : Voice{
     }
     init() {
         self.speechTimer.delegate = self 
+    }
+    deinit {
+        debugPrint(#file)
     }
 }

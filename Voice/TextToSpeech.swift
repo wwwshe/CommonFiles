@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import Speech
 
-internal protocol TextToSpeech {
+internal protocol TextToSpeech where Self : VoiceCommon{
     
 }
 
@@ -26,11 +26,11 @@ internal extension TextToSpeech{
      - etc
      utterance.rate : 목소리 톤
      */
-    func startTTS(text : String, isVoiceOver : Bool, speechRate : Float = 0.4, local : SpeechLocal = SpeechLocal.Kor){
+    func startTTS(text : String, isVoiceOver : Bool){
         if isVoiceOver{
-            print("running")
+            debugPrint("running")
         }else{
-            print("not running")
+            debugPrint("not running")
             let synthesizer = AVSpeechSynthesizer()
             let utterance = AVSpeechUtterance(string: text)
                 
