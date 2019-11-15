@@ -11,18 +11,17 @@ import AVFoundation
 import Speech
 
 
-internal protocol SpeechToText  where Self : VoiceCommon{
+protocol SpeechToText  where Self : VoiceCommon{
     
     
 }
-
-internal extension SpeechToText {
+extension SpeechToText {
     /*
      녹음 시작 메소드
      - audioEngine 꺼져 있을 경우 음성인식 실행
      - 실행중일때 오디오입력과 음성인식 중단
      */
-    func startSTT() throws {
+    public func startSTT() throws {
         if audioEngine.isRunning{   // 음성인식 러닝 체크
             stopSTT()
         }else{

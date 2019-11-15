@@ -83,6 +83,10 @@ open class VoiceCommon : Voice{
     init() {
         self.speechTimer.delegate = self 
     }
+    
+    
+    
+    
     deinit {
         debugPrint(#file)
     }

@@ -10,11 +10,11 @@ import Foundation
 import AVFoundation
 import Speech
 
-internal protocol TextToSpeech where Self : VoiceCommon{
+protocol TextToSpeech where Self : VoiceCommon{
     
 }
 
-internal extension TextToSpeech{
+extension TextToSpeech{
     
      /*# Text To Speech
      - voice over off 일때만 실행
