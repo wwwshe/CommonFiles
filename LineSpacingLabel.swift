@@ -1,6 +1,6 @@
 //
 //  LineSpacingLabel.swift
-//  DDota
+
 //
 //  Created by jungwook on 2019/11/25.
 //  Copyright © 2019 jungwook. All rights reserved.
@@ -18,6 +18,12 @@ class LineSpacingLabel : UILabel{
             setLineSpace()
         }
     }
+    override var text : String?{
+        didSet{
+            setLineSpace()
+        }
+    }
+    
     func setLineSpace(){
         guard let labelText = self.text else { return }
         
