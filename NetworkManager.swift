@@ -25,6 +25,11 @@ extension NetworkError{
     }
 }
 
+enum HttpMethod : String{
+    case get
+    case post
+}
+
 class NetworkManager : NSObject{
     static let shared = NetworkManager(baseURL: BASE_URL)
     var baseURL : String = ""
@@ -39,11 +44,11 @@ class NetworkManager : NSObject{
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData;// NO-CHACHE
         configuration.timeoutIntervalForRequest = 10;
     }
-    func request(body : Data = Data() , path : String , compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+    func request(body : Data = Data() , path : String, method : HttpMethod = .post , compltion : @escaping (Result<Data,NetworkError>) -> Void ){
         
         var request = URLRequest(url: URL(string: "\(baseURL)\(path)")!,
                                  timeoutInterval: 10.0)
-        request.httpMethod = "POST"
+        request.httpMethod = method.rawValue
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.httpBody = body
         let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
@@ -56,11 +61,11 @@ class NetworkManager : NSObject{
         })
         dataTask.resume()
     }
-    func requestSync(body : Data = Data() , path : String , compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+    func requestSync(body : Data = Data() , path : String ,method : HttpMethod = .post, compltion : @escaping (Result<Data,NetworkError>) -> Void ){
         let semaphore = DispatchSemaphore(value: 0)
         var request = URLRequest(url: URL(string: "\(baseURL)\(path)")!,
                                  timeoutInterval: 10.0)
-        request.httpMethod = "POST"
+        request.httpMethod = method.rawValue
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.httpBody = body
         let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
