@@ -1,6 +1,6 @@
 //
 //  NetworkManager.swift
-//
+
 //
 //  Created by jungwook on 2019/11/26.
 //  Copyright © 2019 jungwook. All rights reserved.
@@ -39,38 +39,43 @@ class NetworkManager : NSObject{
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData;// NO-CHACHE
         configuration.timeoutIntervalForRequest = 10;
     }
-    func requestVMInfo(path : String , compltion : @escaping (Result<VMInfo,NetworkError>) -> Void ){
+    func request(body : Data = Data() , path : String , compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+        
         var request = URLRequest(url: URL(string: "\(baseURL)\(path)")!,
                                  timeoutInterval: 10.0)
         request.httpMethod = "POST"
-        let tempData = #"[{"maj" : 60000, "min" : 30, "rssi" : -83, "rssiList" : [ -83, -82,-93]}]"#
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = tempData.data(using: .utf8)
-        
+        request.httpBody = body
         let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
             guard let data = responseData else{
-                print(error ?? "Error nil")
+                compltion(.failure(.RequestError))
                 return
             }
-            let decoder = JSONDecoder()
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                let dic = json as! [String : Any]
-                let code = dic["code"] as! Int
-                let vmInfo = dic["vminfo"] as! [String : Any]
-                let vmInfoData = try JSONSerialization.data(withJSONObject: vmInfo, options: .prettyPrinted)
-                if code == 200 {
-                    let decodeData = try decoder.decode(VMInfo.self, from: vmInfoData)
-                    compltion(.success(decodeData))
-                }else{
-                    compltion(.failure(.RequestError))
-                }
-            } catch {
-                compltion(.failure(.JSONParserError))
-            }
+     
+            compltion(.success(data))
         })
         dataTask.resume()
     }
+    func requestSync(body : Data = Data() , path : String , compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+        let semaphore = DispatchSemaphore(value: 0)
+        var request = URLRequest(url: URL(string: "\(baseURL)\(path)")!,
+                                 timeoutInterval: 10.0)
+        request.httpMethod = "POST"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+        let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
+            guard let data = responseData else{
+                compltion(.failure(.RequestError))
+                semaphore.signal()
+                return
+            }
+            compltion(.success(data))
+            semaphore.signal()
+        })
+        dataTask.resume()
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+    }
+    
     
 }
 
