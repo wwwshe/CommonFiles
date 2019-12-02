@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d0t-Z5-7aK">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main Tab Bar View Controller-->
+        <scene sceneID="MO6-ah-d4N">
+            <objects>
+                <viewController storyboardIdentifier="MainTabBarViewController" id="d0t-Z5-7aK" customClass="MainTabBarViewController" customModule="DDota" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hq5-5r-2yU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nX8-sM-Ufx">
+                                <rect key="frame" x="0.0" y="44" width="414" height="746"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xUp-TQ-vRJ">
+                                <rect key="frame" x="0.0" y="790" width="414" height="72"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w57-3C-C5C">
+                                        <rect key="frame" x="0.0" y="1" width="207" height="71"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                        <state key="normal" title="위치안내">
+                                            <color key="titleColor" red="0.96862745100000003" green="0.97254901959999995" blue="0.0" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="locationTabAction:" destination="d0t-Z5-7aK" eventType="touchUpInside" id="2UM-RU-SNm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rbp-3f-V1t">
+                                        <rect key="frame" x="207" y="1" width="207" height="71"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                        <state key="normal" title="노선안내">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="routeTabAction:" destination="d0t-Z5-7aK" eventType="touchUpInside" id="isc-Hb-8FV"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.96862745100000003" green="0.97254901959999995" blue="0.0" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="72" id="2oN-MA-Ywc"/>
+                                    <constraint firstItem="w57-3C-C5C" firstAttribute="width" secondItem="xUp-TQ-vRJ" secondAttribute="width" multiplier="0.5" id="KBf-6t-qK7"/>
+                                    <constraint firstItem="w57-3C-C5C" firstAttribute="top" secondItem="xUp-TQ-vRJ" secondAttribute="top" constant="1" id="N9f-jR-4Ww"/>
+                                    <constraint firstAttribute="bottom" secondItem="w57-3C-C5C" secondAttribute="bottom" id="NZP-pp-S1G"/>
+                                    <constraint firstAttribute="bottom" secondItem="Rbp-3f-V1t" secondAttribute="bottom" id="VVb-h8-qLc"/>
+                                    <constraint firstItem="w57-3C-C5C" firstAttribute="leading" secondItem="xUp-TQ-vRJ" secondAttribute="leading" id="csZ-s7-sZX"/>
+                                    <constraint firstAttribute="trailing" secondItem="Rbp-3f-V1t" secondAttribute="trailing" id="foe-Er-zeV"/>
+                                    <constraint firstItem="Rbp-3f-V1t" firstAttribute="leading" secondItem="w57-3C-C5C" secondAttribute="trailing" id="gTL-pJ-ZG1"/>
+                                    <constraint firstItem="Rbp-3f-V1t" firstAttribute="top" secondItem="xUp-TQ-vRJ" secondAttribute="top" constant="1" id="kQh-QN-zXp"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="nX8-sM-Ufx" firstAttribute="top" secondItem="K3R-PY-kO2" secondAttribute="top" id="CTy-A5-go7"/>
+                            <constraint firstItem="xUp-TQ-vRJ" firstAttribute="top" secondItem="nX8-sM-Ufx" secondAttribute="bottom" id="Lhn-5X-Li0"/>
+                            <constraint firstItem="nX8-sM-Ufx" firstAttribute="leading" secondItem="K3R-PY-kO2" secondAttribute="leading" id="Lmf-D0-PpL"/>
+                            <constraint firstItem="K3R-PY-kO2" firstAttribute="bottom" secondItem="xUp-TQ-vRJ" secondAttribute="bottom" id="eOH-zz-pLR"/>
+                            <constraint firstItem="K3R-PY-kO2" firstAttribute="trailing" secondItem="nX8-sM-Ufx" secondAttribute="trailing" id="hfn-Yb-xC0"/>
+                            <constraint firstItem="xUp-TQ-vRJ" firstAttribute="leading" secondItem="K3R-PY-kO2" secondAttribute="leading" id="kPn-OY-n7R"/>
+                            <constraint firstItem="K3R-PY-kO2" firstAttribute="trailing" secondItem="xUp-TQ-vRJ" secondAttribute="trailing" id="vdK-R5-5QQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="K3R-PY-kO2"/>
+                    </view>
+                    <connections>
+                        <outlet property="mainView" destination="nX8-sM-Ufx" id="Ji4-5p-j7g"/>
+                        <outlet property="tabView" destination="xUp-TQ-vRJ" id="eho-Zg-rEQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vyn-HM-NfD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-21716" y="-4"/>
+        </scene>
+    </scenes>
+</document>
