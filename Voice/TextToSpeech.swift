@@ -16,7 +16,8 @@ protocol TextToSpeech where Self : VoiceCommon{
 
 extension TextToSpeech{
     
-     /*# Text To Speech
+     /*
+     MARK: Text To Speech
      - voice over off 일때만 실행
      - parameter
      - text : Speech할 텍스트
@@ -28,10 +29,12 @@ extension TextToSpeech{
      */
     func startTTS(text : String, isVoiceOver : Bool){
         if isVoiceOver{
-            debugPrint("running")
+         
         }else{
-            debugPrint("not running")
-            let synthesizer = AVSpeechSynthesizer()
+            if synthesizer.isSpeaking{
+                synthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
+            }
+            
             let utterance = AVSpeechUtterance(string: text)
                 
             utterance.voice = AVSpeechSynthesisVoice(language: local.rawValue)

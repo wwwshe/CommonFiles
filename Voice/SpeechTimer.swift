@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: TimeOut Delegate
 internal protocol SpeechTimerDelegate : class{
     func timeOut()
 }

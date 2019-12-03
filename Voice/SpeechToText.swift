@@ -17,11 +17,11 @@ protocol SpeechToText  where Self : VoiceCommon{
 }
 extension SpeechToText {
     /*
-     녹음 시작 메소드
+     MARK:녹음 시작 메소드
      - audioEngine 꺼져 있을 경우 음성인식 실행
      - 실행중일때 오디오입력과 음성인식 중단
      */
-    public func startSTT() throws {
+    func startSTT() throws {
         if audioEngine.isRunning{   // 음성인식 러닝 체크
             stopSTT()
         }else{
@@ -85,7 +85,7 @@ extension SpeechToText {
         }
     }
     /*
-     녹음 중지 메소드
+     MARK:녹음 중지 메소드
      - 오디오입력과 음성인식 중단
      */
     func stopSTT(){

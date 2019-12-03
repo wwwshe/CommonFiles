@@ -12,7 +12,7 @@ import Speech
 
 
 /*
- # Audio Local
+  MARK: Audio Local
  - Kor : 한국어
  - Eng : 영어
  */
@@ -24,7 +24,7 @@ public enum SpeechLocal : String{
 internal typealias Voice = TextToSpeech & SpeechToText & SpeechTimerDelegate
 
 /*
-    # 음성 관련 Delegate
+    MARK: 음성 관련 Delegate
     - Speech To Text 관련
 */
 internal protocol VoiceDelegate : class{
@@ -33,7 +33,7 @@ internal protocol VoiceDelegate : class{
     func STTStop()
     func timeOutSTT()
 }
-
+// MARK: VoiceDelegate default func
 internal extension VoiceDelegate{
     func timeOutSTT(){
         
@@ -41,12 +41,12 @@ internal extension VoiceDelegate{
 }
 
 
-/// 음성 관련 Error
+// MARK: 음성 관련 Error
 internal enum VoiceError : Error {
     case RequestNilError   // Request 객체가 nil일때 에러
 }
 /*
-   커스텀 에러 description
+  MARK: 커스텀 에러 description
  */
 internal extension VoiceError{
     var localizedDescription: String{
@@ -56,7 +56,7 @@ internal extension VoiceError{
         }
     }
 }
-
+// MARK: Voice관련 Class
 open class VoiceCommon : Voice{
     internal var speechRecognizer : SFSpeechRecognizer!
     internal var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
@@ -70,6 +70,8 @@ open class VoiceCommon : Voice{
     weak var delegate : VoiceDelegate?
     var speechRate : Float = 0.4
     var local : SpeechLocal = SpeechLocal.Kor
+    internal let synthesizer = AVSpeechSynthesizer()
+    
     /*
      Audio Session Recoding Setting
      */
