@@ -39,7 +39,7 @@ extension SpeechToText {
             
             //recognitionRequest를 인스턴스화합니다. 여기서 우리는 SFSpeechAudioBufferRecognitionRequest 객체를 생성합니다. 나중에 우리는 오디오 데이터를 Apple 서버에 전달하는 데 사용합니다.
             recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-            
+        
             //recognitionRequest 객체가 인스턴스화되고 nil이 아닌지 확인합니다.
             guard let recognitionRequest = recognitionRequest else {
                 throw VoiceError.RequestNilError
@@ -48,7 +48,7 @@ extension SpeechToText {
             recognitionRequest.shouldReportPartialResults = true
             
             let inputNode = self.audioEngine.inputNode
-            
+    
             recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest, resultHandler: { (result, error) in
                 // 부울을 정의하여 인식이 최종인지 확인
                 var isFinal = false
@@ -56,12 +56,14 @@ extension SpeechToText {
                 if result != nil {
                     isFinal = (result?.isFinal)!
                 }
+                self.sttString = result?.bestTranscription.formattedString ?? ""
                 //오류가 없거나 최종 결과가 나오면 audioEngine (오디오 입력)을 중지
                 if error != nil || isFinal {
                     self.audioEngine.stop()
                     inputNode.removeTap(onBus: 0)
                     self.recognitionRequest = nil
                     self.isSTTRunning = false
+                  
                     self.delegate?.STTReusltMsg(result:  result?.bestTranscription.formattedString ?? "")
                 }
             })
@@ -111,7 +113,7 @@ internal extension SpeechToText {
         if isSTTRunning{
             if timeInterval > 0.0{
                 stopSTT()
-                delegate?.timeOutSTT()
+                delegate?.timeOutSTT(result: sttString)
             }
         }else{
             stopSTT()

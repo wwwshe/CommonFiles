@@ -12,7 +12,7 @@ import Speech
 
 
 /*
-  MARK: Audio Local
+ MARK: Audio Local
  - Kor : 한국어
  - Eng : 영어
  */
@@ -24,18 +24,22 @@ public enum SpeechLocal : String{
 internal typealias Voice = TextToSpeech & SpeechToText & SpeechTimerDelegate
 
 /*
-    MARK: 음성 관련 Delegate
-    - Speech To Text 관련
-*/
+ MARK: 음성 관련 Delegate
+ - Speech To Text 관련
+ */
 internal protocol VoiceDelegate : class{
     func STTReusltMsg(result : String)
     func STTStart()
     func STTStop()
-    func timeOutSTT()
+    func timeOutSTT(result : String)
 }
+
 // MARK: VoiceDelegate default func
 internal extension VoiceDelegate{
-    func timeOutSTT(){
+    func timeOutSTT(result : String){
+        
+    }
+    func STTStop(){
         
     }
 }
@@ -46,7 +50,7 @@ internal enum VoiceError : Error {
     case RequestNilError   // Request 객체가 nil일때 에러
 }
 /*
-  MARK: 커스텀 에러 description
+ MARK: 커스텀 에러 description
  */
 internal extension VoiceError{
     var localizedDescription: String{
@@ -63,7 +67,7 @@ open class VoiceCommon : Voice{
     internal let audioEngine = AVAudioEngine()
     internal var recognitionTask: SFSpeechRecognitionTask?
     internal var audioLocal = SpeechLocal.Kor
-    var timeInterval = 1.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
+    var timeInterval = 0.0  // defalut : 0.0초 : 시간제한 없음
     internal var isAudioEnginSetting = false
     var isSTTRunning = false // true : Recoding , false : not recoding
     internal var speechTimer = SpeechTimer()
@@ -71,7 +75,7 @@ open class VoiceCommon : Voice{
     var speechRate : Float = 0.4
     var local : SpeechLocal = SpeechLocal.Kor
     internal let synthesizer = AVSpeechSynthesizer()
-    
+    internal var sttString = ""
     /*
      Audio Session Recoding Setting
      */
@@ -81,6 +85,7 @@ open class VoiceCommon : Voice{
         try audioSession.setCategory(AVAudioSession.Category.record)
         try audioSession.setMode(AVAudioSession.Mode.measurement)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        isAudioEnginSetting = true
     }
     init() {
         self.speechTimer.delegate = self 

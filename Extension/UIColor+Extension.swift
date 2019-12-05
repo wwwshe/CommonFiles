@@ -30,5 +30,20 @@ extension UIColor {
             rendererContext.fill(CGRect(origin: .zero, size: size))
         }
     }
-
+   static var customCyan : UIColor{
+        get{
+            return UIColor(red: 26, green: 235, blue: 255)
+        }
+    }
+    static var customGreen : UIColor{
+        get{
+            return UIColor(red: 63, green: 242, blue: 63)
+        }
+    }
+    static var customYellow : UIColor{
+        get{
+            return UIColor(red: 247, green: 248, blue: 0)
+        }
+    }
 }
+
