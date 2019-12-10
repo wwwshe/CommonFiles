@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Custom Alert View Controller-->
+        <scene sceneID="fed-QF-X6f">
+            <objects>
+                <viewController storyboardIdentifier="CustomAlertViewController" id="xPC-74-uYJ" customClass="CustomAlertViewController" customModule="DDota" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gst-YI-8Oc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="md0-9N-cnH">
+                                <rect key="frame" x="77" y="348" width="260" height="200"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="말씀하신 역이 '종로' 이(가) 맞습니까?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Eg-ca-shM">
+                                        <rect key="frame" x="24" y="20" width="212" height="104"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xWV-3r-vZz">
+                                        <rect key="frame" x="0.0" y="144" width="260" height="56"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VH8-Sf-ag0">
+                                                <rect key="frame" x="0.0" y="0.0" width="130" height="56"/>
+                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                <state key="normal" title="아니요">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="cancelAction:" destination="xPC-74-uYJ" eventType="touchUpInside" id="CEd-So-Rn4"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rVb-Kf-nr0">
+                                                <rect key="frame" x="130" y="0.0" width="130" height="56"/>
+                                                <color key="backgroundColor" red="0.96862745098039216" green="0.97254901960784312" blue="0.0" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                                <state key="normal" title="예">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="okAction:" destination="xPC-74-uYJ" eventType="touchUpInside" id="6w4-4j-aqv"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="56" id="2jL-Hf-IV5"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="xWV-3r-vZz" firstAttribute="leading" secondItem="md0-9N-cnH" secondAttribute="leading" id="BdC-vP-XBQ"/>
+                                    <constraint firstItem="xWV-3r-vZz" firstAttribute="top" secondItem="8Eg-ca-shM" secondAttribute="bottom" constant="20" id="Fo0-bx-YUv"/>
+                                    <constraint firstAttribute="height" constant="200" id="IZ3-mA-UZk"/>
+                                    <constraint firstAttribute="width" constant="260" id="WLR-Gj-EbI"/>
+                                    <constraint firstAttribute="trailing" secondItem="8Eg-ca-shM" secondAttribute="trailing" constant="24" id="ct6-84-dg1"/>
+                                    <constraint firstItem="8Eg-ca-shM" firstAttribute="top" secondItem="md0-9N-cnH" secondAttribute="top" constant="20" id="gTO-FF-Ous"/>
+                                    <constraint firstAttribute="trailing" secondItem="xWV-3r-vZz" secondAttribute="trailing" id="k1U-fF-k8P"/>
+                                    <constraint firstAttribute="bottom" secondItem="xWV-3r-vZz" secondAttribute="bottom" id="pLY-hp-YsP"/>
+                                    <constraint firstItem="8Eg-ca-shM" firstAttribute="leading" secondItem="md0-9N-cnH" secondAttribute="leading" constant="24" id="qZP-6z-CRU"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="md0-9N-cnH" firstAttribute="centerY" secondItem="Gst-YI-8Oc" secondAttribute="centerY" id="Yoj-uN-yeb"/>
+                            <constraint firstItem="md0-9N-cnH" firstAttribute="centerX" secondItem="Gst-YI-8Oc" secondAttribute="centerX" id="yTg-Fp-egl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VOA-yY-OYi"/>
+                    </view>
+                    <connections>
+                        <outlet property="backView" destination="md0-9N-cnH" id="Hig-tR-Ruk"/>
+                        <outlet property="cancelBtn" destination="VH8-Sf-ag0" id="q0c-gd-hL1"/>
+                        <outlet property="okBtn" destination="rVb-Kf-nr0" id="ucU-aU-DeS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PcN-cv-i2B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-178" y="151"/>
+        </scene>
+    </scenes>
+</document>
