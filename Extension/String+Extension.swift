@@ -96,6 +96,10 @@ extension String {
             return String(trimmed)
         }
     }
+    // 문자열 공백 삭제
+    func stringTrim() -> String {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 extension String {
