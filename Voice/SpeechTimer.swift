@@ -16,7 +16,6 @@ internal protocol SpeechTimerDelegate : class{
 
 internal class SpeechTimer{
     var timer : Timer!
-    var timeInterval = 0.0  // defalut : 60.0(1분) , 0.0 : 시간제한 없음
     weak var delegate : SpeechTimerDelegate?
     /*
      음성입력 시간초과일경우 중지

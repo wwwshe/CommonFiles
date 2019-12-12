@@ -76,6 +76,7 @@ open class VoiceCommon : Voice{
     var local : SpeechLocal = SpeechLocal.Kor
     internal let synthesizer = AVSpeechSynthesizer()
     internal var sttString = ""
+    var isReport = true // true : 중간중간 리포트
     /*
      Audio Session Recoding Setting
      */
@@ -89,12 +90,5 @@ open class VoiceCommon : Voice{
     }
     init() {
         self.speechTimer.delegate = self 
-    }
-    
-    
-    
-    
-    deinit {
-        debugPrint(#file)
     }
 }

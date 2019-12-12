@@ -45,7 +45,8 @@ extension SpeechToText {
                 throw VoiceError.RequestNilError
             }
             //사용자가 말할 때의 인식 부분적인 결과를보고하도록 recognitionRequest에 지시합니다.
-            recognitionRequest.shouldReportPartialResults = true
+            recognitionRequest.shouldReportPartialResults = isReport
+            
             
             let inputNode = self.audioEngine.inputNode
     
@@ -57,14 +58,15 @@ extension SpeechToText {
                     isFinal = (result?.isFinal)!
                 }
                 self.sttString = result?.bestTranscription.formattedString ?? ""
+                self.sttString = self.sttString.stringTrim()
                 //오류가 없거나 최종 결과가 나오면 audioEngine (오디오 입력)을 중지
-                if error != nil || isFinal {
-                    self.audioEngine.stop()
-                    inputNode.removeTap(onBus: 0)
-                    self.recognitionRequest = nil
-                    self.isSTTRunning = false
-                  
-                    self.delegate?.STTReusltMsg(result:  result?.bestTranscription.formattedString ?? "")
+                if (error == nil && self.sttString != "") || (isFinal && !self.isReport){
+                    self.stopSTT()
+                    if self.isSTTRunning == true {
+                        self.delegate?.STTReusltMsg(result: self.sttString)
+                        self.isSTTRunning = false
+                        self.sttString = ""
+                    }
                 }
             })
             
@@ -98,9 +100,10 @@ extension SpeechToText {
         recognitionRequest?.endAudio()   // 음성인식 중단
         audioEngine.inputNode.removeTap(onBus: 0)
         audioEngine.inputNode.reset()
+        recognitionTask?.cancel()
+        self.recognitionRequest = nil
         speechTimer.timerStop()
         delegate?.STTStop()
-        self.isSTTRunning = false
     }
     
     
@@ -112,8 +115,10 @@ internal extension SpeechToText {
     func timeOut() {
         if isSTTRunning{
             if timeInterval > 0.0{
-                stopSTT()
                 delegate?.timeOutSTT(result: sttString)
+                stopSTT()
+                self.isSTTRunning = false
+                self.sttString = ""
             }
         }else{
             stopSTT()

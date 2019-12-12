@@ -11,7 +11,18 @@ import UIKit
 
 
 extension UINavigationController {
-   open override var preferredStatusBarStyle: UIStatusBarStyle {
-      return topViewController?.preferredStatusBarStyle ?? .default
-   }
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return topViewController?.preferredStatusBarStyle ?? .default
+    }
+    var preViewController : UIViewController?{
+        get{
+            let count = viewControllers.count
+            if count > 1 {
+                let setVC = viewControllers[count - 2]
+                return setVC
+            }else{
+                return nil
+            }
+        }
+    }
 }
