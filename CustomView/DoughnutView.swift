@@ -12,7 +12,11 @@ import UIKit
 @IBDesignable
 class DoughnutView:UIView
 {
-   @IBInspectable var borderColor: UIColor = UIColor.white;
+    @IBInspectable var borderColor: UIColor = UIColor.white{
+        didSet{
+            self.setNeedsDisplay()
+        }
+    }
 
        @IBInspectable var borderSize: CGFloat = 4
 

@@ -1,6 +1,6 @@
 //
 //  NetworkManager.swift
-
+//  DDota
 //
 //  Created by jungwook on 2019/11/26.
 //  Copyright © 2019 jungwook. All rights reserved.
@@ -44,9 +44,27 @@ class NetworkManager : NSObject{
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData;// NO-CHACHE
         configuration.timeoutIntervalForRequest = 10;
     }
-    func request(body : Data = Data() , path : String, method : HttpMethod = .post , compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+    func request(body : Data = Data() , url : String, method : HttpMethod = .post , compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+        if let encoded  = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let myURL = URL(string: encoded){
+            var request = URLRequest(url: myURL,
+                                     timeoutInterval: 10.0)
+            request.httpMethod = method.rawValue
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = body
+            let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
+                guard let data = responseData else{
+                    compltion(.failure(.RequestError))
+                    return
+                }
+                
+                compltion(.success(data))
+            })
+            dataTask.resume()
+        }
         
-        var request = URLRequest(url: URL(string: "\(baseURL)\(path)")!,
+    }
+    func request(body : Data = Data() , url : URL, method : HttpMethod = .post , compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+        var request = URLRequest(url: url,
                                  timeoutInterval: 10.0)
         request.httpMethod = method.rawValue
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
@@ -56,32 +74,88 @@ class NetworkManager : NSObject{
                 compltion(.failure(.RequestError))
                 return
             }
-     
+            
             compltion(.success(data))
         })
         dataTask.resume()
     }
-    func requestSync(body : Data = Data() , path : String ,method : HttpMethod = .post, compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+    func requestSync(body : Data = Data() , url : String ,method : HttpMethod = .post, compltion : @escaping (Result<Data,NetworkError>) -> Void ){
         let semaphore = DispatchSemaphore(value: 0)
-        var request = URLRequest(url: URL(string: "\(baseURL)\(path)")!,
-                                 timeoutInterval: 10.0)
-        request.httpMethod = method.rawValue
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.httpBody = body
-        let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
-            guard let data = responseData else{
-                compltion(.failure(.RequestError))
+        if let encoded  = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let myURL = URL(string: encoded){
+            var request = URLRequest(url: myURL,
+                                     timeoutInterval: 10.0)
+            request.httpMethod = method.rawValue
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = body
+            
+            let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
+                guard let data = responseData else{
+                    compltion(.failure(.RequestError))
+                    semaphore.signal()
+                    return
+                }
+                compltion(.success(data))
                 semaphore.signal()
-                return
-            }
-            compltion(.success(data))
-            semaphore.signal()
-        })
-        dataTask.resume()
+            })
+            dataTask.resume()
+        }
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+    }
+    func requestSync(body : Data = Data() , url : URL ,method : HttpMethod = .post, compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+        let semaphore = DispatchSemaphore(value: 0)
+            var request = URLRequest(url: url,
+                                     timeoutInterval: 10.0)
+            request.httpMethod = method.rawValue
+            request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = body
+            
+            let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
+                guard let data = responseData else{
+                    compltion(.failure(.RequestError))
+                    semaphore.signal()
+                    return
+                }
+                compltion(.success(data))
+                semaphore.signal()
+            })
+            dataTask.resume()
         _ = semaphore.wait(timeout: DispatchTime.distantFuture)
     }
     
-    
+    func requestXMLSync(body : Data = Data() , url : URL ,method : HttpMethod = .post, compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+        let semaphore = DispatchSemaphore(value: 0)
+            var request = URLRequest(url: url,
+                                     timeoutInterval: 10.0)
+            request.httpMethod = method.rawValue
+            request.setValue("application/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.httpBody = body
+            let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
+                guard let data = responseData else{
+                    compltion(.failure(.RequestError))
+                    semaphore.signal()
+                    return
+                }
+                compltion(.success(data))
+                semaphore.signal()
+            })
+            dataTask.resume()
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+    }
+    func requestXML(body : Data = Data() , url : URL ,method : HttpMethod = .post, compltion : @escaping (Result<Data,NetworkError>) -> Void ){
+               var request = URLRequest(url: url,
+                                        timeoutInterval: 10.0)
+               request.httpMethod = method.rawValue
+               request.setValue("application/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
+               request.httpBody = body
+               let dataTask = urlSession.dataTask(with: request as URLRequest, completionHandler: { (responseData, response, error) -> Void in
+                   guard let data = responseData else{
+                       compltion(.failure(.RequestError))
+                       return
+                   }
+                   compltion(.success(data))
+               })
+               dataTask.resume()
+       }
 }
 
 extension NetworkManager : URLSessionDelegate{
