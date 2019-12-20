@@ -1,6 +1,6 @@
 //
 //  AudioCommon.swift
-//  sample
+//  
 //
 //  Created by jungwook on 2019/11/15.
 //  Copyright © 2019 jungwook. All rights reserved.
@@ -27,6 +27,7 @@ internal typealias Voice = TextToSpeech & SpeechToText & SpeechTimerDelegate
  MARK: 음성 관련 Delegate
  - Speech To Text 관련
  */
+
 internal protocol VoiceDelegate : class{
     func STTReusltMsg(result : String)
     func STTStart()
@@ -60,7 +61,7 @@ internal extension VoiceError{
         }
     }
 }
-// MARK: Voice관련 Class
+/// Voice관련 Class
 open class VoiceCommon : Voice{
     internal var speechRecognizer : SFSpeechRecognizer!
     internal var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
@@ -77,18 +78,19 @@ open class VoiceCommon : Voice{
     internal let synthesizer = AVSpeechSynthesizer()
     internal var sttString = ""
     var isReport = true // true : 중간중간 리포트
-    /*
-     Audio Session Recoding Setting
-     */
+    var isEnableVoice = false
+
+    /// Audio Session Recoding Setting
     func audioSessionRecordSet() throws{
         //오디오 녹음을 준비 할 AVAudioSession을 만듭니다. 여기서 우리는 세션의 범주를 녹음, 측정 모드로 설정하고 활성화합니다. 이러한 속성을 설정하면 예외가 발생할 수 있으므로 try catch 절에 넣어야합니다.
         let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(AVAudioSession.Category.record)
         try audioSession.setMode(AVAudioSession.Mode.measurement)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        
         isAudioEnginSetting = true
     }
     init() {
-        self.speechTimer.delegate = self 
+        self.speechTimer.delegate = self
     }
 }

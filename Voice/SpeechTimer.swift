@@ -1,6 +1,6 @@
 //
 //  SpeechTimer.swift
-//  sample
+//  
 //
 //  Created by jungwook on 2019/11/15.
 //  Copyright © 2019 jungwook. All rights reserved.
@@ -17,15 +17,14 @@ internal protocol SpeechTimerDelegate : class{
 internal class SpeechTimer{
     var timer : Timer!
     weak var delegate : SpeechTimerDelegate?
-    /*
-     음성입력 시간초과일경우 중지
-     */
+    
+    /// 음성입력 시간초과일경우 중지
     @IBAction func fire(){
         delegate?.timeOut()
     }
-    /*
-     타이머 시작
-     */
+
+    /// 타이머 시작
+    /// - Parameter timeInterval: 타이머 작동 시간
     func timerStart(timeInterval : Double){
         if timeInterval > 0.0{
             if let timer = self.timer  {
@@ -37,9 +36,7 @@ internal class SpeechTimer{
             }
         }
     }
-    /*
-     타이머 중지
-     */
+    /// 타이머 중지
     func timerStop(){
         if timer != nil && timer.isValid {
             timer.invalidate()

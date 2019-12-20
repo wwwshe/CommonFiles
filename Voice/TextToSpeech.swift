@@ -1,6 +1,6 @@
 //
 //  TextToSpeech.swift
-//  sample
+//  
 //
 //  Created by jungwook on 2019/11/15.
 //  Copyright © 2019 jungwook. All rights reserved.
@@ -15,19 +15,12 @@ protocol TextToSpeech where Self : VoiceCommon{
 }
 
 extension TextToSpeech{
-    
-     /*
-     MARK: Text To Speech
-     - voice over off 일때만 실행
-     - parameter
-     - text : Speech할 텍스트
-     - isVoiceOver :
-     - true : Voice Over Running
-     - false : Voice Over Off
-     - etc
-     utterance.rate : 목소리 톤
-     */
-    func startTTS(text : String, isVoiceOver : Bool){
+   
+    /// Text To Speech
+    /// - Parameters:
+    ///   - text: Speech할 텍스트
+    ///   - isVoiceOver: default : false , true : Voice Over Running, false : Voice Over Off
+    func startTTS(text : String, isVoiceOver : Bool = false){
         if isVoiceOver{
          
         }else{
