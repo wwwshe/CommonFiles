@@ -1,6 +1,6 @@
 //
 //  RealmManager.swift
-//  DDota
+
 //
 //  Created by jungwook on 2019/12/10.
 //  Copyright © 2019 jungwook. All rights reserved.
