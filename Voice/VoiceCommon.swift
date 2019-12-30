@@ -79,6 +79,7 @@ open class VoiceCommon : Voice{
     internal var sttString = ""
     var isReport = true // true : 중간중간 리포트
     var isEnableVoice = false
+    var beforeSTTComment = ""
 
     /// Audio Session Recoding Setting
     func audioSessionRecordSet() throws{

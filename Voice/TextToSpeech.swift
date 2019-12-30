@@ -33,6 +33,7 @@ extension TextToSpeech{
             utterance.voice = AVSpeechSynthesisVoice(language: local.rawValue)
             utterance.rate = speechRate
             synthesizer.speak(utterance)
+            beforeSTTComment = text
         }
     }
 }

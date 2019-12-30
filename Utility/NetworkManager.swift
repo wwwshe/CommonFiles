@@ -79,9 +79,10 @@ class NetworkManager : NSObject{
         })
         dataTask.resume()
     }
+    
     func requestSync(body : Data = Data() , url : String ,method : HttpMethod = .post, compltion : @escaping (Result<Data,NetworkError>) -> Void ){
-        let semaphore = DispatchSemaphore(value: 0)
         if let encoded  = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let myURL = URL(string: encoded){
+            let semaphore = DispatchSemaphore(value: 0)
             var request = URLRequest(url: myURL,
                                      timeoutInterval: 10.0)
             request.httpMethod = method.rawValue
@@ -98,8 +99,8 @@ class NetworkManager : NSObject{
                 semaphore.signal()
             })
             dataTask.resume()
+            _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         }
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
     }
     func requestSync(body : Data = Data() , url : URL ,method : HttpMethod = .post, compltion : @escaping (Result<Data,NetworkError>) -> Void ){
         let semaphore = DispatchSemaphore(value: 0)

@@ -25,7 +25,17 @@ class RealmManager{
             }
         }
     }
-    
+    var isHaveStationData : Bool{
+        get{
+            let realm = try! Realm()
+            let obj = realm.objects(StationData.self)
+            if obj.isEmpty{
+                return false
+            }else{
+                return true
+            }
+        }
+    }
     
     @discardableResult 
     func setLineDatas(idx : Int) -> SubwayLineInfo{
@@ -103,4 +113,43 @@ class RealmManager{
         }
     }
     
+    
+    func setStationDatas(datas : StationDatas){
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(datas, update: true)
+        }
+    }
+    
+    func selectStation(frCode : String) -> StationData{
+        let realm = try! Realm()
+        let obj = realm.objects(StationData.self)
+        let predicate = NSPredicate(format: "frCode = %@", frCode)
+        let filterResult = obj.filter(predicate)
+
+        if !filterResult.isEmpty{
+            let stations = Array(filterResult)
+            
+            return stations[0]
+        }else{
+            return StationData()
+        }
+    }
+    func selectStationLines(name : String) -> [String]{
+        var array = [String]()
+        let realm = try! Realm()
+        let obj = realm.objects(StationData.self)
+        let predicate = NSPredicate(format: "stationNm=%@", name)
+        let filterResult = obj.filter(predicate)
+        
+        if !filterResult.isEmpty{
+            let stations = Array(filterResult)
+            for station in stations{
+                array.append(station.lineNum)
+            }
+            return array
+        }else{
+            return array
+        }
+    }
 }
