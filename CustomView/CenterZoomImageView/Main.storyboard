@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TempProj" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="133" y="122"/>
+        </scene>
+        <!--노선도-->
+        <scene sceneID="DU2-kj-z5f">
+            <objects>
+                <viewController storyboardIdentifier="LineRouteImageViewController" id="UcT-U3-IWT" customClass="LineRouteImageViewController" customModule="DDota" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lBT-l9-nzz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="APU-t9-nCe">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icnStationLine" translatesAutoresizingMaskIntoConstraints="NO" id="bQA-0z-uT9">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="bQA-0z-uT9" firstAttribute="top" secondItem="Jio-u8-Psa" secondAttribute="top" id="7VX-KD-R6n"/>
+                                    <constraint firstItem="bQA-0z-uT9" firstAttribute="bottom" secondItem="Jio-u8-Psa" secondAttribute="bottom" constant="270" id="DDi-sA-lM9"/>
+                                    <constraint firstItem="bQA-0z-uT9" firstAttribute="trailing" secondItem="Jio-u8-Psa" secondAttribute="trailing" constant="414" id="Zfq-T6-Tao"/>
+                                    <constraint firstItem="bQA-0z-uT9" firstAttribute="leading" secondItem="Jio-u8-Psa" secondAttribute="leading" id="gMo-zr-cHH"/>
+                                    <constraint firstItem="bQA-0z-uT9" firstAttribute="centerY" secondItem="APU-t9-nCe" secondAttribute="centerY" id="gd8-ll-nEU"/>
+                                    <constraint firstItem="bQA-0z-uT9" firstAttribute="centerX" secondItem="APU-t9-nCe" secondAttribute="centerX" id="nKR-S1-1zT"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Jio-u8-Psa"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="oEc-ae-NWQ"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="APU-t9-nCe" firstAttribute="leading" secondItem="iaR-Ft-ysX" secondAttribute="leading" id="38c-Xq-jAd"/>
+                            <constraint firstItem="APU-t9-nCe" firstAttribute="leading" secondItem="iaR-Ft-ysX" secondAttribute="leading" id="YVd-WO-9Qy"/>
+                            <constraint firstItem="iaR-Ft-ysX" firstAttribute="bottom" secondItem="APU-t9-nCe" secondAttribute="bottom" id="ZWc-x5-J51"/>
+                            <constraint firstItem="iaR-Ft-ysX" firstAttribute="trailing" secondItem="APU-t9-nCe" secondAttribute="trailing" id="dec-Ez-pgW"/>
+                            <constraint firstItem="APU-t9-nCe" firstAttribute="trailing" secondItem="iaR-Ft-ysX" secondAttribute="trailing" id="jzg-aU-FDB"/>
+                            <constraint firstItem="APU-t9-nCe" firstAttribute="top" secondItem="iaR-Ft-ysX" secondAttribute="top" id="v7P-Lv-B4j"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="iaR-Ft-ysX"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="노선도" id="n0z-1S-Yx9"/>
+                    <connections>
+                        <outlet property="lineRouteImageView" destination="bQA-0z-uT9" id="NJu-gR-kga"/>
+                        <outlet property="scrollView" destination="APU-t9-nCe" id="vwV-gw-cob"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GqU-JR-ZDR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-18426" y="398"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icnStationLine" width="16" height="16"/>
+    </resources>
+</document>
