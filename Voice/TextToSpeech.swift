@@ -30,10 +30,12 @@ extension TextToSpeech{
             
             let utterance = AVSpeechUtterance(string: text)
                 
-            utterance.voice = AVSpeechSynthesisVoice(language: local.rawValue)
+            utterance.voice = AVSpeechSynthesisVoice(language: audioLocal.rawValue)
             utterance.rate = speechRate
             synthesizer.speak(utterance)
+            
             beforeSTTComment = text
         }
     }
+
 }

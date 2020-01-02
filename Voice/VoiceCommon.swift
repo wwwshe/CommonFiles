@@ -32,6 +32,7 @@ internal protocol VoiceDelegate : class{
     func STTReusltMsg(result : String)
     func STTStart()
     func STTStop()
+    func TTSFinish()
     func timeOutSTT(result : String)
 }
 
@@ -42,6 +43,8 @@ internal extension VoiceDelegate{
     }
     func STTStop(){
         
+    }
+    func TTSFinish(){
     }
 }
 
@@ -62,7 +65,7 @@ internal extension VoiceError{
     }
 }
 /// Voice관련 Class
-open class VoiceCommon : Voice{
+open class VoiceCommon : NSObject, Voice, AVSpeechSynthesizerDelegate{
     internal var speechRecognizer : SFSpeechRecognizer!
     internal var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
     internal let audioEngine = AVAudioEngine()
@@ -74,7 +77,6 @@ open class VoiceCommon : Voice{
     internal var speechTimer = SpeechTimer()
     weak var delegate : VoiceDelegate?
     var speechRate : Float = 0.4
-    var local : SpeechLocal = SpeechLocal.Kor
     internal let synthesizer = AVSpeechSynthesizer()
     internal var sttString = ""
     var isReport = true // true : 중간중간 리포트
@@ -91,7 +93,16 @@ open class VoiceCommon : Voice{
         
         isAudioEnginSetting = true
     }
-    init() {
+    override init() {
+        super.init()
         self.speechTimer.delegate = self
+        self.synthesizer.delegate = self
+    }
+    
+    
+    public func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        if utterance.speechString == beforeSTTComment{
+           self.delegate?.TTSFinish()
+        }
     }
 }

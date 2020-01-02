@@ -56,6 +56,7 @@ extension SpeechToText {
                     if result != nil {
                         isFinal = (result?.isFinal)!
                     }
+              
                     self.sttString = result?.bestTranscription.formattedString ?? ""
                     self.sttString = self.sttString.stringTrim()
                     //오류가 없거나 최종 결과가 나오면 audioEngine (오디오 입력)을 중지
