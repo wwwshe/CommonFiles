@@ -27,7 +27,8 @@ extension TextToSpeech{
             if synthesizer.isSpeaking{
                 synthesizer.stopSpeaking(at: AVSpeechBoundary.immediate)
             }
-            
+         
+        
             let utterance = AVSpeechUtterance(string: text)
                 
             utterance.voice = AVSpeechSynthesisVoice(language: audioLocal.rawValue)

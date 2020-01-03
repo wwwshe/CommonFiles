@@ -72,7 +72,7 @@ open class VoiceCommon : NSObject, Voice, AVSpeechSynthesizerDelegate{
     internal var recognitionTask: SFSpeechRecognitionTask?
     internal var audioLocal = SpeechLocal.Kor
     var timeInterval = 0.0  // defalut : 0.0초 : 시간제한 없음
-    internal var isAudioEnginSetting = false
+
     var isSTTRunning = false // true : Recoding , false : not recoding
     internal var speechTimer = SpeechTimer()
     weak var delegate : VoiceDelegate?
@@ -91,7 +91,6 @@ open class VoiceCommon : NSObject, Voice, AVSpeechSynthesizerDelegate{
         try audioSession.setMode(AVAudioSession.Mode.measurement)
         try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         
-        isAudioEnginSetting = true
     }
     override init() {
         super.init()
@@ -108,14 +107,16 @@ open class VoiceCommon : NSObject, Voice, AVSpeechSynthesizerDelegate{
     
     func resetVoice(){
         stopSTT()
-        let audioSession = AVAudioSession.sharedInstance()
+   
+        disableAVSession()
+    }
+    func disableAVSession() {
         do {
-            try audioSession.setActive(false, options: .notifyOthersOnDeactivation)
-            isAudioEnginSetting = false
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setMode(.default)
+            try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
         } catch  {
             DLogPrint(error)
         }
-      
     }
-    
 }

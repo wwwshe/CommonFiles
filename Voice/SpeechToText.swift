@@ -30,9 +30,7 @@ extension SpeechToText {
                 if speechRecognizer == nil {
                     speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: audioLocal.rawValue))
                 }
-                if isAudioEnginSetting == false {
                     try audioSessionRecordSet()
-                }
                 
                 
                 //recognitionRequest를 인스턴스화합니다. 여기서 우리는 SFSpeechAudioBufferRecognitionRequest 객체를 생성합니다. 나중에 우리는 오디오 데이터를 Apple 서버에 전달하는 데 사용합니다.
