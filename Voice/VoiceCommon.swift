@@ -105,4 +105,17 @@ open class VoiceCommon : NSObject, Voice, AVSpeechSynthesizerDelegate{
            self.delegate?.TTSFinish()
         }
     }
+    
+    func resetVoice(){
+        stopSTT()
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(false, options: .notifyOthersOnDeactivation)
+            isAudioEnginSetting = false
+        } catch  {
+            DLogPrint(error)
+        }
+      
+    }
+    
 }
