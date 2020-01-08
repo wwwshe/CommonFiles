@@ -119,4 +119,9 @@ open class VoiceCommon : NSObject, Voice, AVSpeechSynthesizerDelegate{
             DLogPrint(error)
         }
     }
+    func vibrate(){
+        DispatchQueue.main.async {
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        }
+    }
 }
