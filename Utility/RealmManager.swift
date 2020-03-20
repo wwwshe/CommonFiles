@@ -15,8 +15,12 @@ class RealmManager{
     
     func setStationDatas(datas : StationDatas){
         let realm = try! Realm()
-        try! realm.write {
-            realm.add(datas, update: true)
+        do {
+            try realm.write {
+                realm.add(datas, update: .all)
+            }
+        } catch  {
+            print("error : \(error)")
         }
     }
     
